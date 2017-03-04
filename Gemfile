@@ -40,13 +40,14 @@ gem 'active_model_serializers', '~> 0.10.0'
 gem "socialization"
 gem 'rack-cors'
 gem 'faker'
+gem 'route_downcaser'
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platform: :mri
   gem 'factory_girl_rails'
   gem 'shoulda'
-  gem 'faker'
+  gem 'pry'
 end
 
 group :development do

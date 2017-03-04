@@ -1,0 +1,206 @@
+Chris getting me started in slack:
+------------------------------------------------------
+1)  Make a rails app
+    $ rails new chirpy -—api -—database=postgresql
+
+2)  Add active_model_serializers and socialization gems to the Gemfile
+    and bundle
+
+       Active Model Serializers affects JSON generation.  Serializers describe
+       which and adapters describe how.
+
+          https://github.com/rails-api/active_model_serializers
+               gem 'active_model_serializers', '~> 0.10.0'
+
+       Socialization is a Ruby Gem that allows any ActiveRecord model to Follow,
+       Like and/or Mention any other model.
+
+           https://github.com/cmer/socialization
+                  gem "socialization"
+                  rails generate socialization -s
+
+       The generate creates 3 migration files for ActiveRecord and 3 models:
+       Follow, Like, and Mention.
+
+
+3)  Generate a user resource and off I go
+
+
+-----------------------------------------------------------
+Creating the user
+
+1)  rails g controller user
+      create  app/controllers/user_controller.rb
+      create    app/views/user
+      create    test/controllers/user_controller_test.rb
+      create    app/helpers/user_helper.rb
+      create      app/assets/javascripts/user.coffee
+      create      app/assets/stylesheets/user.scss
+
+2)  $ rails g model user
+      create    db/migrate/20170303033207_create_users.rb
+      create    app/models/user.rb
+      create      test/models/user_test.rb
+      create      test/fixtures/users.yml
+
+3)  rails g serializer user
+     create  app/serializers/user_serializer.rb
+
+    ( could have also been done by rails g resource user,
+       would have done all three things)
+
+4) Since I didn't do the command line table create, I updated the
+   db/migrate/20170303033207_create_users.rb file manually to create the table
+
+Step: So now create a database and then start up postman to see what I get.
+   I did a db:create the first time and it made a sqlite db which is the default.
+   Chris had me fix the gemfile and then bundle.
+   i.e. where it reference sqlite, change to pg
+             # Use sqlite3 as the database for Active Record
+                      gem 'pg'
+
+  in the database.yml he had me update a few things also:
+
+           default: &default
+           adapter: postgresql            <== fixed this
+           pool: 5
+           timeout: 5000
+
+          development:
+           <<: *default
+           database: chirpy_development   <== fixed this
+
+          test:
+          <<: *default
+          database: chirpy_test
+
+          production:
+          <<: *default
+          database: db/production.sqlite3  <== said don't worry about this for now
+
+
+
+   Can see the db on my laptop:   ps aux | grep postgres
+
+
+
+Then I did a db:create ----
+  $ rails db:create
+  Created database 'chirpy_development'
+  Created database 'chirpy_test'
+
+Followed by a db:migrate ----
+  $ rails db:migrate
+  == 20170302221257 CreateFollows: migrating ====================================
+  -- create_table(:follows, {})
+     -> 0.0160s
+  -- add_index(:follows, ["follower_id", "follower_type"], {:name=>"fk_follows"})
+     -> 0.0077s
+  -- add_index(:follows, ["followable_id", "followable_type"], {:name=>"fk_followables"})
+     -> 0.0029s
+  == 20170302221257 CreateFollows: migrated (0.0272s) ===========================
+
+  == 20170302221258 CreateLikes: migrating ======================================
+  -- create_table(:likes, {})
+     -> 0.0154s
+  -- add_index(:likes, ["liker_id", "liker_type"], {:name=>"fk_likes"})
+     -> 0.0076s
+  -- add_index(:likes, ["likeable_id", "likeable_type"], {:name=>"fk_likeables"})
+     -> 0.0031s
+  == 20170302221258 CreateLikes: migrated (0.0265s) =============================
+
+  == 20170302221259 CreateMentions: migrating ===================================
+  -- create_table(:mentions, {})
+     -> 0.0165s
+  -- add_index(:mentions, ["mentioner_id", "mentioner_type"], {:name=>"fk_mentions"})
+     -> 0.0034s
+  -- add_index(:mentions, ["mentionable_id", "mentionable_type"], {:name=>"fk_mentionables"})
+     -> 0.0026s
+  == 20170302221259 CreateMentions: migrated (0.0229s) ==========================
+
+  == 20170303033207 CreateUsers: migrating ======================================
+  -- create_table("users", {:force=>:cascade})
+     -> 0.0045s
+  == 20170303033207 CreateUsers: migrated (0.0047s) =============================
+-----------------------------------------------------------
+
+Step 5: Starting up the app through either postman or test cases
+    Rails is different from ruby, to start the application:
+         $ rails server
+    As long as you’re inside the directory with a Rails app, `rails server` will
+    fire up the server.  It will listen for a request on http://localhost:3000.
+
+    Per Chris:  Looking at the Rails app, there’s a `config.ru` in there …
+    it’s running on top of Rack (last Tuesday):
+
+    i.e.:  in config.ru:
+            require_relative 'config/environment'
+            run Rails.application
+
+    Anyway, so just starting up google chrome or something and typing in
+    http://localhost:3000/users, you are only going to have access to get
+    commands.  Postman gives you the option to use other http: verbs.
+-----------------------------------------------------------
+
+Step 6:  Asked Chris what would be the best next steps for me, he suggested
+seeding my database to verify that the index works and then move into signup
+(user#create).  Also talked to Kelsey and Collin and made some changes so
+our user table columns names matched.
+
+After that, talked to Chris to see what was the best way to recreate the table:
+   rails db:drop
+        Dropped database 'chirpy_development'
+        Dropped database 'chirpy_test'
+   rails db:create
+   rails db:migrate
+
+   To be done next:   db:seed
+
+After which I can do my db:seed command....   I didn't recall a db:seed so much
+but I probably did it.  I know I did db:resets which loaded the db.  Chris
+reminded me what a db:reset does:
+        db:reset   drops, creates, loads schema, and seeds
+
+Got some stuff in the db finally, remember it isn't about pry now, you
+go into one of these two to look at the db:
+    rails dbconsole      (Chris recommends I start using the console...)
+         of
+    rails c              (c is short for console)
+
+
+----------------------------------------------------------------
+Step ngrok
+1)  Chris helped me install ngrok
+    $ brew cask install ngrok
+    $ which ngrok
+           /usr/local/bin/ngrok
+2)  Then opened up the server -- Listening on tcp://localhost:3000
+3)  Another terminal window opened up ngrok
+           ngrok http 3000
+    I can see the web address, i.e. https://756fe484.ngrok.io
+4)  Then I can go to that address and add /users to the end, I get a list
+    of IDs because my serializer is the initial value.  i.e.
+         https://756fe484.ngrok.io/users
+                   returned
+      [{"id":1},{"id":2},{"id":3},{"id":4},{"id":5}]
+
+      Needed to add the required fields in the serializer
+-----------------------------------------------------------------
+ Step - Postman and signup (signUp in Kelsey's code)
+
+ Change to body (Authorization Headers Body Pre-request Script Tests)
+ select raw and JSON and you can pass this
+
+ {
+   "username"   : "BilboBaggings",
+   "name"       : "Bilbo Baggins",
+   "photo_url"  : "tbd",
+   "password"   : "playground"
+ }
+
+     You can go to the server console or in Postman at the bottom, changing the
+     HTML from raw or pretty to preview gives an error message.
+
+or can enter using the [Params] button
+------------------------------------------------------------------
+Step - Validate the password

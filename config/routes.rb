@@ -14,9 +14,8 @@ Rails.application.routes.draw do
 #  whole record with token (not password)
 #  post and get chirps
 
-    get '/users'  => 'user#index'
-    post '/signup' => 'user#create'
-
-
+    get '/users'       => 'user#index'
+    post '/signup'     => 'user#create'
+    post '/login'      => 'user#login'
 
 end
