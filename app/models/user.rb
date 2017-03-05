@@ -6,6 +6,8 @@ class User < ApplicationRecord
   validates  :username, uniqueness: true
 
   has_many :chirps
-  has_many :follows
+
+  has_many :followers,   class_name: "Follow", foreign_key: "follower_id"
+  has_many :followables, class_name: "Follow", foreign_key: "followable_id"
 
 end

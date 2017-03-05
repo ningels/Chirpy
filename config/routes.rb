@@ -20,10 +20,10 @@ Rails.application.routes.draw do
 #          DELETE   /chirps/:id(.:format)       chirps#destroy
 #
   resources :chirps
-    get '/users'       => 'user#index'
-    post '/signup'     => 'user#create'
-    post '/login'      => 'sessions#create'
-    post '/message'    => 'chirps#create'   #I think Kelsey used message
-    post '/follow'     => 'follow#create' 
-
+    get '/users'         => 'user#index'
+    post '/signup'       => 'user#create'
+    post '/login'        => 'sessions#create'
+    post '/message'      => 'chirps#create'   #I think Kelsey used message
+    post '/follow'       => 'follow#create'
+    post '/unfollow'     => 'unfollow#delete'
 end
