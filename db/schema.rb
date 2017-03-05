@@ -10,14 +10,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170303033207) do
+ActiveRecord::Schema.define(version: 20170304214333) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
+  create_table "chirps", force: :cascade do |t|
+    t.text     "body"
+    t.integer  "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_chirps_on_user_id", using: :btree
+  end
+
   create_table "follows", force: :cascade do |t|
     t.string   "follower_type"
     t.integer  "follower_id"
+    t.integer  "user"
     t.string   "followable_type"
     t.integer  "followable_id"
     t.datetime "created_at"
@@ -55,4 +64,5 @@ ActiveRecord::Schema.define(version: 20170303033207) do
     t.string   "token"
   end
 
+  add_foreign_key "chirps", "users"
 end

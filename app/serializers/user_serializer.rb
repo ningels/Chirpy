@@ -1,3 +1,4 @@
 class UserSerializer < ActiveModel::Serializer
-  attributes :username, :name, :photo_url
+  has_many :chirps
+  attributes :username, :name, :photo_url, :token
 end

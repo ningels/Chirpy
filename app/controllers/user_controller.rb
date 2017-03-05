@@ -1,4 +1,13 @@
 class UserController < ApplicationController
+#----------------------------------------------------------------
+# class UserController
+#  Invoked by request:
+#     http verb:  POST
+#     url:  http://localhost:3000/signup  (not case sensitive due to gem
+#                                              gem 'route_downcaser'  )
+#     JSON input string example:
+#       {"username": "Nardo", "name": "Leo Nardo", "password": "summer97"}
+#
 
   def index
     @users = User.all
@@ -14,16 +23,6 @@ class UserController < ApplicationController
     end
   end
 
-  def login
-    @user = User.find_by(username: user_params["username"] )
-    if @user
-  #    Session.create
-      render json: @user, serializer: UserExpandedSerializer
-    #   render json: @user
-    else
-      render json: ['Invalid username'], status: 401
-    end
-  end
 
   #  need to add the follow unfollow stuff
 
@@ -37,4 +36,4 @@ end
 
 
 
-end
+end   #------- end class UserController

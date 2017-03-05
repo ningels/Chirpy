@@ -2,9 +2,9 @@ class CreateFollows < ActiveRecord::Migration
   def change
     create_table :follows do |t|
       t.string  :follower_type
-      t.integer :follower_id
+      t.integer :follower_id,       :user, foreign_key: true
       t.string  :followable_type
-      t.integer :followable_id
+      t.integer :followable_id,     :user, foreign_key: true
       t.datetime :created_at
     end
 

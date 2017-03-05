@@ -5,4 +5,7 @@ class User < ApplicationRecord
   validates  :username, :name,   presence: true
   validates  :username, uniqueness: true
 
+  has_many :chirps
+  has_many :follows
+
 end

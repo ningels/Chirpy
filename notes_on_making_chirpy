@@ -204,3 +204,36 @@ Step ngrok
 or can enter using the [Params] button
 ------------------------------------------------------------------
 Step - Validate the password
+
+Looking over txtly app that Chris and Collin made.  Generating a controller
+called sessions:
+
+$ rails generate controller sessions
+      create  app/controllers/sessions_controller.rb
+      create    app/views/sessions
+      create    test/controllers/sessions_controller_test.rb
+      create    app/helpers/sessions_helper.rb
+      create      app/assets/javascripts/sessions.coffee
+      create      app/assets/stylesheets/sessions.scss
+
+Used the example code from txtly for this and documented what it did.
+
+-------------------------------------------------------------------
+Step - Create chirps
+
+$ rails generate resource chirps
+[WARNING] The model name 'chirps' was recognized as a plural, using the singular
+'chirp' instead. Override with --force-plural or setup custom inflection rules
+for this noun before running the generator.
+      create    db/migrate/20170304214333_create_chirps.rb
+      create    app/models/chirp.rb
+      create      test/models/chirp_test.rb
+      create        test/factories/chirps.rb
+      create    app/controllers/chirps_controller.rb
+      create      app/views/chirps
+      create      test/controllers/chirps_controller_test.rb
+      create      app/helpers/chirps_helper.rb
+      create        app/assets/javascripts/chirps.coffee
+      create        app/assets/stylesheets/chirps.scss
+       route    resources :chirps
+      create    app/serializers/chirp_serializer.rb
