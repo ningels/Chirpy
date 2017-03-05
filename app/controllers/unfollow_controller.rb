@@ -25,7 +25,6 @@ class UnfollowController < ApplicationController
     # @follow.follower_id = current_user.id
     # @follow.followable_id = to_be_followed.id
 
-binding.pry
     if follow_record
       follow_record.delete
       render json: ["Now unfollowing #{u_params[:username]}"], status: 200

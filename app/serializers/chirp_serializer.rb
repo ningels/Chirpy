@@ -1,7 +1,5 @@
 class ChirpSerializer < ActiveModel::Serializer
 
-binding.pry
-
   attributes :body, :username, :created_at
 
   def username
