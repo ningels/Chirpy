@@ -15,7 +15,7 @@
 
 class ChirpsController < ApplicationController
 
-  before_action :require_user, only: [:create]
+  before_action :require_user, only: [:create, :timeline]
 
   def create
     @chirp = current_user.chirps.new(body: chirp_params[:body])
@@ -27,6 +27,17 @@ class ChirpsController < ApplicationController
     end
   end
 
+#---------------------------------------------------------------
+# http verb:  GET
+# example URL from postman:
+#        localhost:3000/users/?token=CieeQqk2hLvjV5c8W1BJT9v7"
+  def timeline
+    Chirp.timeline(current_user)
+  end
+
+
+
+#-------- private methods --------------
   private
 
   def chirp_params

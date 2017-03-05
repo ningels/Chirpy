@@ -1,12 +1,16 @@
 class UserController < ApplicationController
 #----------------------------------------------------------------
 # class UserController
-#  Invoked by request:
+#
+#  signup a new user(create) - Invoked by request:
+#
 #     http verb:  POST
 #     url:  http://localhost:3000/signup  (not case sensitive due to gem
 #                                              gem 'route_downcaser'  )
 #     JSON input string example:
-#       {"username": "Nardo", "name": "Leo Nardo", "password": "summer97"}
+#       {"username": "Nardo", "name": "Leo Nardo", "password": "summer97",
+#        "photo_url": "https://s-media-cache-ak0.pinimg.com/236x/28/bc/57/28bc57bc624d4086b74e2b929284afdf.webp"
+#       }
 #
 
   def index
