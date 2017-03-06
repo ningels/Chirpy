@@ -33,6 +33,7 @@ class ChirpsController < ApplicationController
 #        localhost:3000/users/?token=CieeQqk2hLvjV5c8W1BJT9v7"
   def timeline
     Chirp.timeline(current_user)
+    render json: @chirp
   end
 
 

@@ -9,12 +9,9 @@ class Chirp < ApplicationRecord
 
 #this is a class method
   def self.timeline(user)
-binding.pry
-
     following_ids = user.followables(User).pluck(:id)
     all_ids= following_ids << user.id
-    Post.where(user_id: all_ids).order("created_at DESC")
-
+    Chirp.where(user_id: all_ids).order("created_at DESC")
 
     # t.integer  "follower_id"
     # t.integer  "user"
@@ -25,9 +22,5 @@ binding.pry
     # all_ids= following_ids << user.id
     # Post.where(user_id: all_ids).order("created_at DESC")
   end
-
-
-
-
 
 end

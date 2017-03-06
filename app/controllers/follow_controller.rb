@@ -12,7 +12,8 @@ class FollowController < ApplicationController
 #     Output rendered example:
 #        ["Now following Gollum"]
 #
-#
+# From Chris
+#  current_user.follow!(User.find_by(username: f_params[:username]))
 #------------------------------------------------------------
 before_action :require_user, only: [:create]
 
@@ -24,9 +25,10 @@ def create
     to_be_followed = User.find_by(username: f_params[:username])
     if to_be_followed
 
-      @follow = current_user.followables.new
-      @follow.follower_id = current_user.id
-      @follow.followable_id = to_be_followed.id
+      @follow = Follow.new
+      @follow.follower = current_user
+      @follow.followable = to_be_followed
+
 
       if @follow.save
         render json: ["Now following #{f_params[:username]}"], status: 200
